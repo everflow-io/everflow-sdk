@@ -65,6 +65,27 @@ class EF {
                     queryParams.set('sub5', options.sub5)
                 }
 
+                if (options.adv1) {
+                    queryParams.set('adv1', options.adv1)
+                }
+
+                if (options.adv2) {
+                    queryParams.set('adv2', options.adv2)
+                }
+
+                if (options.adv3) {
+                    queryParams.set('adv3', options.adv3)
+                }
+
+                if (options.adv4) {
+                    queryParams.set('adv4', options.adv4)
+                }
+
+                if (options.adv5) {
+                    queryParams.set('adv5', options.adv5)
+                }
+
+
                 if (options.source_id) {
                     queryParams.set('source_id', options.source_id)
                 }
@@ -130,6 +151,26 @@ class EF {
 
                 if (options.adv5) {
                     queryParams.set('adv5', options.adv5)
+                }
+
+                if (options.sub1) {
+                    queryParams.set('sub1', options.sub1)
+                }
+
+                if (options.sub2) {
+                    queryParams.set('sub2', options.sub2)
+                }
+
+                if (options.sub3) {
+                    queryParams.set('sub3', options.sub3)
+                }
+
+                if (options.sub4) {
+                    queryParams.set('sub4', options.sub4)
+                }
+
+                if (options.sub5) {
+                    queryParams.set('sub5', options.sub5)
                 }
 
                 if (options.disable_fingerprinting) {
