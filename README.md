@@ -38,7 +38,7 @@ When working with direct linking, your affiliate id will most likely be dynamic.
 
 ```javascript
 EF.click({
-    offer_id: 1, 
+    offer_id: EF.urlParameter('oid'), 
     affiliate_id: EF.urlParameter('affid'), 
 });
 ```
@@ -66,6 +66,8 @@ EF.click({
 
         event_id: 0, // Optional. The event id
         coupon_code: '', // Optional. Coupon code
+
+        adv_event_id: 0, // Optional. If you use global advertiser events
 
         // Optional. Adv placement values.
         adv1: '',

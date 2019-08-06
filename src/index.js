@@ -133,6 +133,10 @@ class EF {
                 queryParams.set('coupon_code', options.coupon_code || '');
                 queryParams.set('amount', options.amount || '');
 
+                if (options.adv_event_id) {
+                    queryParams.set('adv_event_id', options.adv_event_id);
+                }
+
                 if (options.adv1) {
                     queryParams.set('adv1', options.adv1)
                 }
