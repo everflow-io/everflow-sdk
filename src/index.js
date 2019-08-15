@@ -96,7 +96,10 @@ class EF {
 
                 url.search = queryParams.toString();
 
-                fetch(url.toString())
+                fetch(url.toString(), {
+                    method: 'GET',
+                    credentials: 'include'
+                })
                     .then((response) => response.json(),
                         (error) => {
                             console.log(error);
