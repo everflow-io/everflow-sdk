@@ -23,6 +23,94 @@ class EF {
         this._trackingDomain = options.tracking_domain;
     }
 
+    impression(options) {
+        if (!options.offer_id) {
+            console.warn(`Unable to track. Missing "offer_id" parameter.`)
+            return;
+        }
+
+        this._fingerprintingReady.then(() => {
+            Fingerprint2.get((components) => {
+                var murmur = Fingerprint2.x64hash128(components.map((component) => component.value).join(''), 31)
+
+                console.log(murmur.length);
+
+                const url = new URL(`${this._trackingDomain}/imp`)
+
+                const queryParams = new URLSearchParams(url.search);
+
+                queryParams.set('effp', murmur || '');
+                queryParams.set('oid', options.offer_id);
+                queryParams.set('affid', options.affiliate_id || '');
+                queryParams.set('async', 'json')
+
+                if (this._isDefined(options.sub1)) {
+                    queryParams.set('sub1', options.sub1)
+                }
+
+                if (this._isDefined(options.sub2)) {
+                    queryParams.set('sub2', options.sub2)
+                }
+
+                if (this._isDefined(options.sub3)) {
+                    queryParams.set('sub3', options.sub3)
+                }
+
+                if (this._isDefined(options.sub4)) {
+                    queryParams.set('sub4', options.sub4)
+                }
+
+                if (this._isDefined(options.sub5)) {
+                    queryParams.set('sub5', options.sub5)
+                }
+
+                if (this._isDefined(options.adv1)) {
+                    queryParams.set('adv1', options.adv1)
+                }
+
+                if (this._isDefined(options.adv2)) {
+                    queryParams.set('adv2', options.adv2)
+                }
+
+                if (this._isDefined(options.adv3)) {
+                    queryParams.set('adv3', options.adv3)
+                }
+
+                if (this._isDefined(options.adv4)) {
+                    queryParams.set('adv4', options.adv4)
+                }
+
+                if (this._isDefined(options.adv5)) {
+                    queryParams.set('adv5', options.adv5)
+                }
+
+                if (this._isDefined(options.source_id)) {
+                    queryParams.set('source_id', options.source_id)
+                }
+
+                if (this._isDefined(options.disable_fingerprinting)) {
+                    queryParams.delete('effp');
+                }
+
+                url.search = queryParams.toString();
+
+                fetch(url.toString(), {
+                    method: 'GET',
+                    credentials: 'include'
+                })
+                    .then((response) => response.json(),
+                        (error) => {
+                            console.log(error);
+                        })
+                    .then((response) => {
+                        if (response.transaction_id && response.transaction_id.length > 0) {
+                            this._persist(`ef_tid_${options.offer_id}`, response.transaction_id);
+                        }
+                    })
+            })
+        });
+    }
+
     click(options) {
         if (!options.offer_id) {
             console.warn(`Unable to track. Missing "offer_id" parameter.`)
@@ -45,52 +133,51 @@ class EF {
                 queryParams.set('affid', options.affiliate_id || '');
                 queryParams.set('async', 'json')
 
-                if (options.sub1) {
+                if (this._isDefined(options.sub1)) {
                     queryParams.set('sub1', options.sub1)
                 }
 
-                if (options.sub2) {
+                if (this._isDefined(options.sub2)) {
                     queryParams.set('sub2', options.sub2)
                 }
 
-                if (options.sub3) {
+                if (this._isDefined(options.sub3)) {
                     queryParams.set('sub3', options.sub3)
                 }
 
-                if (options.sub4) {
+                if (this._isDefined(options.sub4)) {
                     queryParams.set('sub4', options.sub4)
                 }
 
-                if (options.sub5) {
+                if (this._isDefined(options.sub5)) {
                     queryParams.set('sub5', options.sub5)
                 }
 
-                if (options.adv1) {
+                if (this._isDefined(options.adv1)) {
                     queryParams.set('adv1', options.adv1)
                 }
 
-                if (options.adv2) {
+                if (this._isDefined(options.adv2)) {
                     queryParams.set('adv2', options.adv2)
                 }
 
-                if (options.adv3) {
+                if (this._isDefined(options.adv3)) {
                     queryParams.set('adv3', options.adv3)
                 }
 
-                if (options.adv4) {
+                if (this._isDefined(options.adv4)) {
                     queryParams.set('adv4', options.adv4)
                 }
 
-                if (options.adv5) {
+                if (this._isDefined(options.adv5)) {
                     queryParams.set('adv5', options.adv5)
                 }
 
-
-                if (options.source_id) {
+                if (this._isDefined(options.source_id)) {
                     queryParams.set('source_id', options.source_id)
                 }
 
-                if (options.disable_fingerprinting) {
+                if (this._isDefined(options.disable_fingerprinting)) {
                     queryParams.delete('effp');
                 }
 
@@ -105,8 +192,6 @@ class EF {
                             console.log(error);
                         })
                     .then((response) => {
-                        console.log(response);
-
                         if (response.transaction_id && response.transaction_id.length > 0) {
                             this._persist(`ef_tid_${options.offer_id}`, response.transaction_id);
                         }
@@ -130,57 +215,78 @@ class EF {
 
                 queryParams.set('effp', murmur || '');
                 queryParams.set('transaction_id', options.transaction_id || '');
-                queryParams.set('oid', options.offer_id);
-                queryParams.set('affid', options.affiliate_id || '');
                 queryParams.set('event_id', options.event_id || 0);
-                queryParams.set('coupon_code', options.coupon_code || '');
-                queryParams.set('amount', options.amount || '');
 
-                if (options.adv_event_id) {
-                    queryParams.set('adv_event_id', options.adv_event_id);
+                if (this._isDefined(options.offer_id)) {
+                    queryParams.set('oid', options.offer_id);
                 }
 
-                if (options.adv1) {
+                if (this._isDefined(options.affiliate_id)) {
+                    queryParams.set('affid', options.affiliate_id);
+                }
+
+                if (this._isDefined(options.advertiser_id)) {
+                    queryParams.set('advid', options.advertiser_id);
+                }
+
+                if (this._isDefined(options.adv_event_id)) {
+                    queryParams.set('adv_event_id', options.adv_event_id);
+                    queryParams.delete('event_id');
+                }
+
+                if (this._isDefined(options.coupon_code)) {
+                    queryParams.set('coupon_code', options.coupon_code);
+                }
+
+                if (this._isDefined(options.amount)) {
+                    queryParams.set('amount', options.amount);
+                }
+
+                if (this._isDefined(options.adv1)) {
                     queryParams.set('adv1', options.adv1)
                 }
 
-                if (options.adv2) {
+                if (this._isDefined(options.adv2)) {
                     queryParams.set('adv2', options.adv2)
                 }
 
-                if (options.adv3) {
+                if (this._isDefined(options.adv3)) {
                     queryParams.set('adv3', options.adv3)
                 }
 
-                if (options.adv4) {
+                if (this._isDefined(options.adv4)) {
                     queryParams.set('adv4', options.adv4)
                 }
 
-                if (options.adv5) {
+                if (this._isDefined(options.adv5)) {
                     queryParams.set('adv5', options.adv5)
                 }
 
-                if (options.sub1) {
+                if (this._isDefined(options.sub1)) {
                     queryParams.set('sub1', options.sub1)
                 }
 
-                if (options.sub2) {
+                if (this._isDefined(options.sub2)) {
                     queryParams.set('sub2', options.sub2)
                 }
 
-                if (options.sub3) {
+                if (this._isDefined(options.sub3)) {
                     queryParams.set('sub3', options.sub3)
                 }
 
-                if (options.sub4) {
+                if (this._isDefined(options.sub4)) {
                     queryParams.set('sub4', options.sub4)
                 }
 
-                if (options.sub5) {
+                if (this._isDefined(options.sub5)) {
                     queryParams.set('sub5', options.sub5)
                 }
 
-                if (options.disable_fingerprinting) {
+                if (this._isDefined(options.order)) {
+                    queryParams.set('order', JSON.stringify(options.order));
+                }
+
+                if (this._isDefined(options.disable_fingerprinting)) {
                     queryParams.delete('effp');
                 }
 
@@ -224,6 +330,10 @@ class EF {
         }
 
         return '';
+    }
+
+    _isDefined(value) {
+        return typeof value !== 'undefined';
     }
 
     _persist(key, value, expirationDays) {
