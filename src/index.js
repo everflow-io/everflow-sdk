@@ -112,8 +112,8 @@ class EF {
     }
 
     click(options) {
-        if (!options.offer_id) {
-            console.warn(`Unable to track. Missing "offer_id" parameter.`)
+        if (!options.offer_id && !options.transaction_id) {
+            console.warn(`Unable to track. Missing "offer_id" or "transaction_id" parameter.`)
             return;
         }
 
@@ -129,7 +129,7 @@ class EF {
 
                 queryParams.set('effp', murmur || '');
                 queryParams.set('transaction_id', options.transaction_id || '');
-                queryParams.set('oid', options.offer_id);
+                queryParams.set('oid', options.offer_id || '');
                 queryParams.set('affid', options.affiliate_id || '');
                 queryParams.set('async', 'json')
 
