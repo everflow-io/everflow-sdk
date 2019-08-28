@@ -128,7 +128,7 @@ class EF {
                 const queryParams = new URLSearchParams(url.search);
 
                 queryParams.set('effp', murmur || '');
-                queryParams.set('transaction_id', options.transaction_id || '');
+                queryParams.set('_ef_transaction_id', options.transaction_id || '');
                 queryParams.set('oid', options.offer_id || '');
                 queryParams.set('affid', options.affiliate_id || '');
                 queryParams.set('async', 'json')
