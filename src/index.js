@@ -26,178 +26,186 @@ class EF {
     impression(options) {
         if (!options.offer_id) {
             console.warn(`Unable to track. Missing "offer_id" parameter.`)
-            return;
+            return Promise.resolve("");
         }
+        return new Promise((resolve, reject) => {
 
-        this._fingerprintingReady.then(() => {
-            Fingerprint2.get((components) => {
-                var murmur = Fingerprint2.x64hash128(components.map((component) => component.value).join(''), 31)
+            this._fingerprintingReady.then(() => {
+                Fingerprint2.get((components) => {
+                    var murmur = Fingerprint2.x64hash128(components.map((component) => component.value).join(''), 31)
 
-                console.log(murmur.length);
+                    console.log(murmur.length);
 
-                const url = new URL(`${this._trackingDomain}/imp`)
+                    const url = new URL(`${this._trackingDomain}/imp`)
 
-                const queryParams = new URLSearchParams(url.search);
+                    const queryParams = new URLSearchParams(url.search);
 
-                queryParams.set('effp', murmur || '');
-                queryParams.set('oid', options.offer_id);
-                queryParams.set('affid', options.affiliate_id || '');
-                queryParams.set('async', 'json')
+                    queryParams.set('effp', murmur || '');
+                    queryParams.set('oid', options.offer_id);
+                    queryParams.set('affid', options.affiliate_id || '');
+                    queryParams.set('async', 'json')
 
-                if (this._isDefined(options.sub1)) {
-                    queryParams.set('sub1', options.sub1)
-                }
+                    if (this._isDefined(options.sub1)) {
+                        queryParams.set('sub1', options.sub1)
+                    }
 
-                if (this._isDefined(options.sub2)) {
-                    queryParams.set('sub2', options.sub2)
-                }
+                    if (this._isDefined(options.sub2)) {
+                        queryParams.set('sub2', options.sub2)
+                    }
 
-                if (this._isDefined(options.sub3)) {
-                    queryParams.set('sub3', options.sub3)
-                }
+                    if (this._isDefined(options.sub3)) {
+                        queryParams.set('sub3', options.sub3)
+                    }
 
-                if (this._isDefined(options.sub4)) {
-                    queryParams.set('sub4', options.sub4)
-                }
+                    if (this._isDefined(options.sub4)) {
+                        queryParams.set('sub4', options.sub4)
+                    }
 
-                if (this._isDefined(options.sub5)) {
-                    queryParams.set('sub5', options.sub5)
-                }
+                    if (this._isDefined(options.sub5)) {
+                        queryParams.set('sub5', options.sub5)
+                    }
 
-                if (this._isDefined(options.adv1)) {
-                    queryParams.set('adv1', options.adv1)
-                }
+                    if (this._isDefined(options.adv1)) {
+                        queryParams.set('adv1', options.adv1)
+                    }
 
-                if (this._isDefined(options.adv2)) {
-                    queryParams.set('adv2', options.adv2)
-                }
+                    if (this._isDefined(options.adv2)) {
+                        queryParams.set('adv2', options.adv2)
+                    }
 
-                if (this._isDefined(options.adv3)) {
-                    queryParams.set('adv3', options.adv3)
-                }
+                    if (this._isDefined(options.adv3)) {
+                        queryParams.set('adv3', options.adv3)
+                    }
 
-                if (this._isDefined(options.adv4)) {
-                    queryParams.set('adv4', options.adv4)
-                }
+                    if (this._isDefined(options.adv4)) {
+                        queryParams.set('adv4', options.adv4)
+                    }
 
-                if (this._isDefined(options.adv5)) {
-                    queryParams.set('adv5', options.adv5)
-                }
+                    if (this._isDefined(options.adv5)) {
+                        queryParams.set('adv5', options.adv5)
+                    }
 
-                if (this._isDefined(options.source_id)) {
-                    queryParams.set('source_id', options.source_id)
-                }
+                    if (this._isDefined(options.source_id)) {
+                        queryParams.set('source_id', options.source_id)
+                    }
 
-                if (this._isDefined(options.disable_fingerprinting)) {
-                    queryParams.delete('effp');
-                }
+                    if (this._isDefined(options.disable_fingerprinting)) {
+                        queryParams.delete('effp');
+                    }
 
-                url.search = queryParams.toString();
+                    url.search = queryParams.toString();
 
-                fetch(url.toString(), {
-                    method: 'GET',
-                    credentials: 'include'
-                })
-                    .then((response) => response.json(),
-                        (error) => {
-                            console.log(error);
-                        })
-                    .then((response) => {
-                        if (response.transaction_id && response.transaction_id.length > 0) {
-                            this._persist(`ef_tid_${options.offer_id}`, response.transaction_id);
-                        }
+                    fetch(url.toString(), {
+                        method: 'GET',
+                        credentials: 'include'
                     })
-            })
+                        .then((response) => response.json(),
+                            (error) => {
+                                console.error(error);
+                                resolve("")
+                            })
+                        .then((response) => {
+                            if (response.transaction_id && response.transaction_id.length > 0) {
+                                this._persist(`ef_tid_${options.offer_id}`, response.transaction_id);
+                                resolve(response.transaction_id);
+                            }
+                        })
+                })
+            });
         });
     }
 
     click(options) {
         if (!options.offer_id && !options.transaction_id) {
             console.warn(`Unable to track. Missing "offer_id" or "transaction_id" parameter.`)
-            return;
+            return Promise.resolve("");
         }
 
-        this._fingerprintingReady.then(() => {
-            Fingerprint2.get((components) => {
-                var murmur = Fingerprint2.x64hash128(components.map((component) => component.value).join(''), 31)
+        return new Promise((resolve, reject) => {
+            this._fingerprintingReady.then(() => {
+                Fingerprint2.get((components) => {
+                    var murmur = Fingerprint2.x64hash128(components.map((component) => component.value).join(''), 31)
 
-                console.log(murmur.length);
+                    console.log(murmur.length);
 
-                const url = new URL(`${this._trackingDomain}/clk`)
+                    const url = new URL(`${this._trackingDomain}/clk`)
 
-                const queryParams = new URLSearchParams(url.search);
+                    const queryParams = new URLSearchParams(url.search);
 
-                queryParams.set('effp', murmur || '');
-                queryParams.set('_ef_transaction_id', options.transaction_id || '');
-                queryParams.set('oid', options.offer_id || '');
-                queryParams.set('affid', options.affiliate_id || '');
-                queryParams.set('async', 'json')
+                    queryParams.set('effp', murmur || '');
+                    queryParams.set('_ef_transaction_id', options.transaction_id || '');
+                    queryParams.set('oid', options.offer_id || '');
+                    queryParams.set('affid', options.affiliate_id || '');
+                    queryParams.set('async', 'json')
 
-                if (this._isDefined(options.sub1)) {
-                    queryParams.set('sub1', options.sub1)
-                }
+                    if (this._isDefined(options.sub1)) {
+                        queryParams.set('sub1', options.sub1)
+                    }
 
-                if (this._isDefined(options.sub2)) {
-                    queryParams.set('sub2', options.sub2)
-                }
+                    if (this._isDefined(options.sub2)) {
+                        queryParams.set('sub2', options.sub2)
+                    }
 
-                if (this._isDefined(options.sub3)) {
-                    queryParams.set('sub3', options.sub3)
-                }
+                    if (this._isDefined(options.sub3)) {
+                        queryParams.set('sub3', options.sub3)
+                    }
 
-                if (this._isDefined(options.sub4)) {
-                    queryParams.set('sub4', options.sub4)
-                }
+                    if (this._isDefined(options.sub4)) {
+                        queryParams.set('sub4', options.sub4)
+                    }
 
-                if (this._isDefined(options.sub5)) {
-                    queryParams.set('sub5', options.sub5)
-                }
+                    if (this._isDefined(options.sub5)) {
+                        queryParams.set('sub5', options.sub5)
+                    }
 
-                if (this._isDefined(options.adv1)) {
-                    queryParams.set('adv1', options.adv1)
-                }
+                    if (this._isDefined(options.adv1)) {
+                        queryParams.set('adv1', options.adv1)
+                    }
 
-                if (this._isDefined(options.adv2)) {
-                    queryParams.set('adv2', options.adv2)
-                }
+                    if (this._isDefined(options.adv2)) {
+                        queryParams.set('adv2', options.adv2)
+                    }
 
-                if (this._isDefined(options.adv3)) {
-                    queryParams.set('adv3', options.adv3)
-                }
+                    if (this._isDefined(options.adv3)) {
+                        queryParams.set('adv3', options.adv3)
+                    }
 
-                if (this._isDefined(options.adv4)) {
-                    queryParams.set('adv4', options.adv4)
-                }
+                    if (this._isDefined(options.adv4)) {
+                        queryParams.set('adv4', options.adv4)
+                    }
 
-                if (this._isDefined(options.adv5)) {
-                    queryParams.set('adv5', options.adv5)
-                }
+                    if (this._isDefined(options.adv5)) {
+                        queryParams.set('adv5', options.adv5)
+                    }
 
-                if (this._isDefined(options.source_id)) {
-                    queryParams.set('source_id', options.source_id)
-                }
+                    if (this._isDefined(options.source_id)) {
+                        queryParams.set('source_id', options.source_id)
+                    }
 
-                if (this._isDefined(options.disable_fingerprinting)) {
-                    queryParams.delete('effp');
-                }
+                    if (this._isDefined(options.disable_fingerprinting)) {
+                        queryParams.delete('effp');
+                    }
 
-                url.search = queryParams.toString();
+                    url.search = queryParams.toString();
 
-                fetch(url.toString(), {
-                    method: 'GET',
-                    credentials: 'include'
-                })
-                    .then((response) => response.json(),
-                        (error) => {
-                            console.log(error);
-                        })
-                    .then((response) => {
-                        if (response.transaction_id && response.transaction_id.length > 0) {
-                            this._persist(`ef_tid_${options.offer_id}`, response.transaction_id);
-                        }
+                    fetch(url.toString(), {
+                        method: 'GET',
+                        credentials: 'include'
                     })
-            })
-        });
+                        .then((response) => response.json(),
+                            (error) => {
+                                console.error(error);
+                                resolve("");
+                            })
+                        .then((response) => {
+                            if (response.transaction_id && response.transaction_id.length > 0) {
+                                this._persist(`ef_tid_${options.offer_id}`, response.transaction_id);
+                                resolve(response.transaction_id);
+                            }
+                        })
+                })
+            });
+        })
     }
 
     conversion(options) {
