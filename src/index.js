@@ -17,6 +17,10 @@ class EF {
         this._trackingDomain = options.tracking_domain;
     }
 
+    getTransactionId(offerId) {
+        return this._fetch(`ef_tid_${offerId}`)
+    }
+
     impression(options) {
         if (!options.offer_id) {
             console.warn(`Unable to track. Missing "offer_id" parameter.`)
