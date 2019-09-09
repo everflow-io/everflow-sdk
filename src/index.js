@@ -6,15 +6,9 @@ import Fingerprint2 from 'fingerprintjs2';
 class EF {
     constructor() {
         this._fingerprintingReady = new Promise((resolve, reject) => {
-            if (window.requestIdleCallback) {
-                requestIdleCallback(function () {
-                    resolve();
-                });
-            } else {
-                setTimeout(function () {
-                    resolve();
-                }, 100);
-            }
+            setTimeout(function () {
+                resolve();
+            }, 200);
         })
         this._trackingDomain = '<<.TrackingDomain>>';
     }
