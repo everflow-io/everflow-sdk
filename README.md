@@ -77,3 +77,21 @@ EF.click({
         adv5: '',
    })
  ```
+ 
+ ### Accessing the transaction ids
+ 
+ You can access the latest transaction id that was generated for an offer using the following method:
+ 
+ ```javascript
+ EF.getTransactionId(1); // 1 is the offer id you want to query for.
+ ```
+ 
+ You can also access the transaction id from an `EF.click` call. The method returns a promise which you can resolve:
+ 
+ ```javascript
+ EF.click({
+    offer_id: EF.urlParameter('oid'), 
+    affiliate_id: EF.urlParameter('affid'),
+ })
+ .then((transactionId) => console.log(transactionId))
+ ```
