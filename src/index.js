@@ -41,7 +41,6 @@ class EF {
                     queryParams.set('effp', murmur || '');
                     queryParams.set('oid', options.offer_id);
                     queryParams.set('affid', options.affiliate_id || '');
-                    queryParams.set('async', 'json')
 
                     if (this._isDefined(options.sub1)) {
                         queryParams.set('sub1', options.sub1)
