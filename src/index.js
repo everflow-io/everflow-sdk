@@ -342,7 +342,7 @@ class EF {
         return typeof value !== 'undefined';
     }
 
-    _persist(key, value, expirationDays) {
+    _persist(key, value, expirationDays = 30) {
         const d = new Date();
         d.setTime(d.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
 
