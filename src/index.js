@@ -330,7 +330,7 @@ class EF {
 
             const d = new Date();
 
-            if (entry.expiration > d.getTime()) {
+            if (entry.expiration == null || entry.expiration > d.getTime()) {
                 return entry.value;
             }
         }
