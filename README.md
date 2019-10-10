@@ -75,6 +75,11 @@ EF.click({
         adv3: '',
         adv4: '',
         adv5: '',
+
+        //Optional. Free form parameters to me appended on the conversion URL
+        parameters: {
+            
+        }
    })
  ```
  
