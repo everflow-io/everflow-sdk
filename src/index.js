@@ -26,6 +26,11 @@ class EF {
             console.warn(`Unable to track. Missing "offer_id" parameter.`)
             return Promise.resolve("");
         }
+
+        if (options.do_not_track === true) {
+            return Promise.resolve("");
+        }
+
         return new Promise((resolve, reject) => {
 
             this._fingerprintingReady.then(() => {
@@ -116,6 +121,10 @@ class EF {
     click(options) {
         if (!options.offer_id && !options.transaction_id) {
             console.warn(`Unable to track. Missing "offer_id" or "transaction_id" parameter.`)
+            return Promise.resolve("");
+        }
+
+        if (options.do_not_track === true) {
             return Promise.resolve("");
         }
 
