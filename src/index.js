@@ -92,7 +92,7 @@ class EF {
                         queryParams.set('source_id', options.source_id)
                     }
 
-                    if (this._isDefined(options.disable_fingerprinting)) {
+                    if (options.disable_fingerprinting === true) {
                         queryParams.delete('effp');
                     }
 
@@ -193,7 +193,7 @@ class EF {
                         queryParams.set('source_id', options.source_id)
                     }
 
-                    if (this._isDefined(options.disable_fingerprinting)) {
+                    if (options.disable_fingerprinting === true) {
                         queryParams.delete('effp');
                     }
 
@@ -305,7 +305,7 @@ class EF {
                     queryParams.set('order', JSON.stringify(options.order));
                 }
 
-                if (this._isDefined(options.disable_fingerprinting)) {
+                if (options.disable_fingerprinting === true) {
                     queryParams.delete('effp');
                 }
 
