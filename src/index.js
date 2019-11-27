@@ -248,8 +248,8 @@ class EF {
                     queryParams.set('advid', options.advertiser_id);
                 }
 
-                if (this._isDefined(options.adv_id)) {
-                    queryParams.set('advid', options.adv_id);
+                if (this._isDefined(options.aid)) {
+                    queryParams.set('aid', options.aid);
                 }
 
                 if (this._isDefined(options.adv_event_id)) {
