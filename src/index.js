@@ -305,6 +305,10 @@ class EF {
                     queryParams.set('sub5', options.sub5)
                 }
 
+                if (this._isDefined(options.order_id)) {
+                    queryParams.set('order_id', options.order_id)
+                }
+
                 if (this._isDefined(options.order)) {
                     queryParams.set('order', JSON.stringify(options.order));
                 }
