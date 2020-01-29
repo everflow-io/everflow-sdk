@@ -8,7 +8,7 @@ export default {
     output: {
         name: 'EF',
         file: 'dist/everflow-sdk.js',
-        format: 'umd'
+        format: 'iife'
     },
     plugins: [
         resolve(),
