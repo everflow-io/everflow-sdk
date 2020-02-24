@@ -224,113 +224,134 @@ class EF {
             options.transaction_id = this._fetch(`ef_tid_${options.offer_id}`);
         }
 
-        this._fingerprintingReady.then(() => {
-            Fingerprint2.get((components) => {
-                var murmur = Fingerprint2.x64hash128(components.map((component) => component.value).join(''), 31)
+        return new Promise((resolve, reject) => {
+            this._fingerprintingReady.then(() => {
+                Fingerprint2.get((components) => {
+                    var murmur = Fingerprint2.x64hash128(components.map((component) => component.value).join(''), 31)
 
-                const url = new URL(`${this._trackingDomain}`)
+                    const url = new URL(`${this._trackingDomain}`)
 
-                const queryParams = new URLSearchParams(url.search);
+                    const queryParams = new URLSearchParams(url.search);
 
-                queryParams.set('effp', murmur || '');
-                queryParams.set('transaction_id', options.transaction_id || '');
-                queryParams.set('event_id', options.event_id || 0);
+                    queryParams.set('effp', murmur || '');
+                    queryParams.set('transaction_id', options.transaction_id || '');
+                    queryParams.set('event_id', options.event_id || 0);
 
-                if (this._isDefined(options.offer_id)) {
-                    queryParams.set('oid', options.offer_id);
-                }
+                    if (this._isDefined(options.offer_id)) {
+                        queryParams.set('oid', options.offer_id);
+                    }
 
-                if (this._isDefined(options.affiliate_id)) {
-                    queryParams.set('affid', options.affiliate_id);
-                }
+                    if (this._isDefined(options.affiliate_id)) {
+                        queryParams.set('affid', options.affiliate_id);
+                    }
 
-                if (this._isDefined(options.advertiser_id)) {
-                    queryParams.set('advid', options.advertiser_id);
-                }
+                    if (this._isDefined(options.advertiser_id)) {
+                        queryParams.set('advid', options.advertiser_id);
+                    }
 
-                if (this._isDefined(options.aid)) {
-                    queryParams.set('aid', options.aid);
-                }
+                    if (this._isDefined(options.aid)) {
+                        queryParams.set('aid', options.aid);
+                    }
 
-                if (this._isDefined(options.adv_event_id)) {
-                    queryParams.set('adv_event_id', options.adv_event_id);
-                    queryParams.delete('event_id');
-                }
+                    if (this._isDefined(options.adv_event_id)) {
+                        queryParams.set('adv_event_id', options.adv_event_id);
+                        queryParams.delete('event_id');
+                    }
 
-                if (this._isDefined(options.coupon_code)) {
-                    queryParams.set('coupon_code', options.coupon_code);
-                }
+                    if (this._isDefined(options.coupon_code)) {
+                        queryParams.set('coupon_code', options.coupon_code);
+                    }
 
-                if (this._isDefined(options.amount)) {
-                    queryParams.set('amount', options.amount);
-                }
+                    if (this._isDefined(options.amount)) {
+                        queryParams.set('amount', options.amount);
+                    }
 
-                if (this._isDefined(options.adv1)) {
-                    queryParams.set('adv1', options.adv1)
-                }
+                    if (this._isDefined(options.adv1)) {
+                        queryParams.set('adv1', options.adv1)
+                    }
 
-                if (this._isDefined(options.adv2)) {
-                    queryParams.set('adv2', options.adv2)
-                }
+                    if (this._isDefined(options.adv2)) {
+                        queryParams.set('adv2', options.adv2)
+                    }
 
-                if (this._isDefined(options.adv3)) {
-                    queryParams.set('adv3', options.adv3)
-                }
+                    if (this._isDefined(options.adv3)) {
+                        queryParams.set('adv3', options.adv3)
+                    }
 
-                if (this._isDefined(options.adv4)) {
-                    queryParams.set('adv4', options.adv4)
-                }
+                    if (this._isDefined(options.adv4)) {
+                        queryParams.set('adv4', options.adv4)
+                    }
 
-                if (this._isDefined(options.adv5)) {
-                    queryParams.set('adv5', options.adv5)
-                }
+                    if (this._isDefined(options.adv5)) {
+                        queryParams.set('adv5', options.adv5)
+                    }
 
-                if (this._isDefined(options.sub1)) {
-                    queryParams.set('sub1', options.sub1)
-                }
+                    if (this._isDefined(options.sub1)) {
+                        queryParams.set('sub1', options.sub1)
+                    }
 
-                if (this._isDefined(options.sub2)) {
-                    queryParams.set('sub2', options.sub2)
-                }
+                    if (this._isDefined(options.sub2)) {
+                        queryParams.set('sub2', options.sub2)
+                    }
 
-                if (this._isDefined(options.sub3)) {
-                    queryParams.set('sub3', options.sub3)
-                }
+                    if (this._isDefined(options.sub3)) {
+                        queryParams.set('sub3', options.sub3)
+                    }
 
-                if (this._isDefined(options.sub4)) {
-                    queryParams.set('sub4', options.sub4)
-                }
+                    if (this._isDefined(options.sub4)) {
+                        queryParams.set('sub4', options.sub4)
+                    }
 
-                if (this._isDefined(options.sub5)) {
-                    queryParams.set('sub5', options.sub5)
-                }
+                    if (this._isDefined(options.sub5)) {
+                        queryParams.set('sub5', options.sub5)
+                    }
 
-                if (this._isDefined(options.order_id)) {
-                    queryParams.set('order_id', options.order_id)
-                }
+                    if (this._isDefined(options.order_id)) {
+                        queryParams.set('order_id', options.order_id)
+                    }
 
-                if (this._isDefined(options.order)) {
-                    queryParams.set('order', JSON.stringify(options.order));
-                }
+                    if (this._isDefined(options.order)) {
+                        queryParams.set('order', JSON.stringify(options.order));
+                    }
 
-                if (options.disable_fingerprinting === true) {
-                    queryParams.delete('effp');
-                }
+                    if (options.disable_fingerprinting === true) {
+                        queryParams.delete('effp');
+                    }
 
-                if (this._isDefined(options.parameters)) {
-                    Object.keys(options.parameters).forEach(p => queryParams.set(p, options.parameters[p]));
-                }
+                    if (this._isDefined(options.parameters)) {
+                        Object.keys(options.parameters).forEach(p => queryParams.set(p, options.parameters[p]));
+                    }
 
-                url.search = queryParams.toString();
+                    url.search = queryParams.toString();
 
-                const script = document.createElement('iframe');
-                script.width = 1;
-                script.height = 1;
-                script.frameBorder = 0;
-                script.src = url.toString();
+                    fetch(url.toString(), {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    })
+                        .then((response) => response.json(),
+                            (error) => {
+                                console.error(error);
+                                resolve("")
+                            })
+                        .then((response) => {
+                            if (response.html_pixel != '') {
+                                const script = document.createElement('iframe');
+                                script.width = 1;
+                                script.height = 1;
+                                script.frameBorder = 0;
 
-                document.getElementsByTagName('body')[0].appendChild(script);
-            })
+                                document.getElementsByTagName('body')[0].appendChild(script);
+
+                                script.contentWindow.document.open();
+                                script.contentWindow.document.write(response.html_pixel);
+                                script.contentWindow.document.close();
+                            }
+                            resolve({ transaction_id: response.transaction_id, conversion_id: response.conversion_id });
+                        });
+                })
+            });
         });
     }
 

@@ -100,3 +100,17 @@ EF.click({
  })
  .then((transactionId) => console.log(transactionId))
  ```
+
+### Accessing the conversion ids
+
+You can access the conversion id that was generated for any conversion by resolving the Promise that is returned:
+
+```javascript
+EF.conversion({
+    offer_id: 1,
+})
+.then((conversion) => {
+    console.log(conversion.conversion_id);
+    console.log(conversion.transaction_id)
+})
+```
