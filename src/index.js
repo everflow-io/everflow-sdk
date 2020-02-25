@@ -328,13 +328,16 @@ class EF {
                         method: 'GET',
                         headers: {
                             'Accept': 'application/json'
-                        }
+                        },
+                        credentials: 'include'
                     })
-                        .then((response) => response.json(),
-                            (error) => {
-                                console.error(error);
-                                resolve("")
-                            })
+                        .then((response) => {
+                            if (response.status === 200) {
+                                return response.json();
+                            } else {
+                                return { conversion_id: '', transaction_id: '', html_pixel: '' };
+                            }
+                        })
                         .then((response) => {
                             if (response.html_pixel != '') {
                                 const script = document.createElement('iframe');
@@ -349,7 +352,11 @@ class EF {
                                 script.contentWindow.document.close();
                             }
                             resolve({ transaction_id: response.transaction_id, conversion_id: response.conversion_id });
-                        });
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            resolve({ conversion_id: '', transaction_id: '', html_pixel: '' });
+                        })
                 })
             });
         });
