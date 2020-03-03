@@ -22,6 +22,9 @@ EF.click({
 
     disable_fingerprinting: false, // Optional. Wheter or not to disable browser fingerprinting used enhance user tracking. Defaults to false
 
+    // Optional. Offer URL Id
+    uid: 0,
+
     // Optional. Sub placement values.
     sub1: '',
     sub2: '',
