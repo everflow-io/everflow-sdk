@@ -4,10 +4,10 @@ import babel from 'rollup-plugin-babel';
 import { uglify } from "rollup-plugin-uglify";
 
 export default {
-    input: 'src/index.js',
+    input: 'src/vanilla_sdk.js',
     output: {
         name: 'EF',
-        file: 'dist/everflow-sdk.js',
+        file: 'dist/everflow-vanilla-sdk.js',
         format: 'iife'
     },
     plugins: [
