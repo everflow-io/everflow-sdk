@@ -227,7 +227,6 @@ export default class EverflowSDK {
                     }
                 }
 
-                queryParams.set('effp', murmur || '');
                 queryParams.set('transaction_id', options.transaction_id || '');
                 queryParams.set('event_id', options.event_id || 0);
 
