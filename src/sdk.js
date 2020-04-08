@@ -111,7 +111,7 @@ export default class EverflowSDK {
     }
 
     click(options) {
-        if (!options.offer_id && !options.transaction_id) {
+        if (!options.offer_id && !options.transaction_id && !options.coupon_code) {
             console.warn(`Unable to track. Missing "offer_id" or "transaction_id" parameter.`)
             return Promise.resolve("");
         }
@@ -135,6 +135,7 @@ export default class EverflowSDK {
                 queryParams.set('_ef_transaction_id', options.transaction_id || '');
                 queryParams.set('oid', options.offer_id || '');
                 queryParams.set('affid', options.affiliate_id || '');
+                queryParams.set('__cc', options.coupon_code || '');
                 queryParams.set('async', 'json')
 
                 if (this._isDefined(options.uid)) {
