@@ -32,6 +32,9 @@ EF.click({
     sub4: '',
     sub5: '',
     source_id: '',
+    
+    //Optional. Creative Id
+    creative_id: 0,
 });
 ```
 
