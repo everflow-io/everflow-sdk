@@ -250,6 +250,10 @@ export default class EverflowSDK {
                 if (!options.transaction_id) {
                     options.transaction_id = this._fetch(`ef_tid_i_a_${aid}`);
                 }
+                // Fallback for previous cookies when we did not have advertiser and offer cookies
+                if (!options.transaction_id) {
+                    options.transaction_id = this._fetch(`ef_tid_${options.offer_id}`);
+                }
             }
         }
 
