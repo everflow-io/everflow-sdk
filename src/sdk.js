@@ -118,7 +118,8 @@ export default class EverflowSDK {
                         })
                     .then((response) => {
                         if (response.transaction_id && response.transaction_id.length > 0) {
-                            this._persist(`ef_tid_${options.offer_id}`, response.transaction_id);
+                            this._persist(`ef_tid_i_o_${options.offer_id}`, response.transaction_id);
+                            this._persist(`ef_tid_i_a_${response.aid}`, response.transaction_id);
                             resolve(response.transaction_id);
                         }
                     })
@@ -223,7 +224,8 @@ export default class EverflowSDK {
                         })
                     .then((response) => {
                         if (response.transaction_id && response.transaction_id.length > 0) {
-                            this._persist(`ef_tid_${options.offer_id}`, response.transaction_id);
+                            this._persist(`ef_tid_c_o_${options.offer_id}`, response.transaction_id);
+                            this._persist(`ef_tid_c_a_${response.aid}`, response.transaction_id);
                             resolve(response.transaction_id);
                         }
                     })
@@ -233,7 +235,22 @@ export default class EverflowSDK {
 
     conversion(options) {
         if (!options.transaction_id) {
-            options.transaction_id = this._fetch(`ef_tid_${options.offer_id}`);
+            if (this._isDefined(options.offer_id)) {
+                options.transaction_id = this._fetch(`ef_tid_c_o_${options.offer_id}`);
+                if (!options.transaction_id) {
+                    options.transaction_id = this._fetch(`ef_tid_i_o_${options.offer_id}`);
+                }
+                // Fallback for previous cookies when we did not have advertiser and offer cookies
+                if (!options.transaction_id) {
+                    options.transaction_id = this._fetch(`ef_tid_${options.offer_id}`);
+                }
+            } else if (this._isDefined(options.advertiser_id) || this._isDefined(options.aid)) {
+                const aid = options.advertiser_id || options.aid;
+                options.transaction_id = this._fetch(`ef_tid_c_a_${aid}`);
+                if (!options.transaction_id) {
+                    options.transaction_id = this._fetch(`ef_tid_i_a_${aid}`);
+                }
+            }
         }
 
         return new Promise((resolve, reject) => {
