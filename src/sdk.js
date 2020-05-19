@@ -24,13 +24,13 @@ export default class EverflowSDK {
     }
 
     getTransactionId(offerId) {
-        const tid = this._fetch(`ef_tid_c_o_${options.offer_id}`);
+        const tid = this._fetch(`ef_tid_c_o_${offerId}`);
         if (!tid) {
-            tid = this._fetch(`ef_tid_i_o_${options.offer_id}`);
+            tid = this._fetch(`ef_tid_i_o_${offerId}`);
         }
         // Fallback for previous cookies when we did not have advertiser and offer cookies
         if (!tid) {
-            tid = this._fetch(`ef_tid_${options.offer_id}`);
+            tid = this._fetch(`ef_tid_${offerId}`);
         }
         return tid;
     }
