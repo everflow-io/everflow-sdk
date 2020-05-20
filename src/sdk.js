@@ -47,7 +47,7 @@ export default class EverflowSDK {
 
         return new Promise((resolve, reject) => {
             this.customParamProvider.then((customParams) => {
-                const url = new URL(`${this._trackingDomain}/imp`)
+                const url = new URL(`${this._trackingDomain}/sdk/impression`)
 
                 const queryParams = new URLSearchParams(url.search);
 
@@ -147,7 +147,7 @@ export default class EverflowSDK {
 
         return new Promise((resolve, reject) => {
             this.customParamProvider.then((customParams) => {
-                const url = new URL(`${this._trackingDomain}/clk`)
+                const url = new URL(`${this._trackingDomain}/sdk/click`)
 
                 const queryParams = new URLSearchParams(url.search);
 
@@ -267,7 +267,7 @@ export default class EverflowSDK {
 
         return new Promise((resolve, reject) => {
             this.customParamProvider.then((customParams) => {
-                const url = new URL(`${this._trackingDomain}`)
+                const url = new URL(`${this._trackingDomain}/sdk/conversion`)
 
                 const queryParams = new URLSearchParams(url.search);
 
