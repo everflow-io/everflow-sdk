@@ -24,7 +24,15 @@ export default class EverflowSDK {
     }
 
     getTransactionId(offerId) {
-        return this._fetch(`ef_tid_${offerId}`)
+        const tid = this._fetch(`ef_tid_c_o_${offerId}`);
+        if (!tid) {
+            tid = this._fetch(`ef_tid_i_o_${offerId}`);
+        }
+        // Fallback for previous cookies when we did not have advertiser and offer cookies
+        if (!tid) {
+            tid = this._fetch(`ef_tid_${offerId}`);
+        }
+        return tid;
     }
 
     impression(options) {
@@ -39,7 +47,7 @@ export default class EverflowSDK {
 
         return new Promise((resolve, reject) => {
             this.customParamProvider.then((customParams) => {
-                const url = new URL(`${this._trackingDomain}/imp`)
+                const url = new URL(`${this._trackingDomain}/sdk/impression`)
 
                 const queryParams = new URLSearchParams(url.search);
 
@@ -118,7 +126,8 @@ export default class EverflowSDK {
                         })
                     .then((response) => {
                         if (response.transaction_id && response.transaction_id.length > 0) {
-                            this._persist(`ef_tid_${options.offer_id}`, response.transaction_id);
+                            this._persist(`ef_tid_i_o_${options.offer_id}`, response.transaction_id);
+                            this._persist(`ef_tid_i_a_${response.aid}`, response.transaction_id);
                             resolve(response.transaction_id);
                         }
                     })
@@ -138,7 +147,7 @@ export default class EverflowSDK {
 
         return new Promise((resolve, reject) => {
             this.customParamProvider.then((customParams) => {
-                const url = new URL(`${this._trackingDomain}/clk`)
+                const url = new URL(`${this._trackingDomain}/sdk/click`)
 
                 const queryParams = new URLSearchParams(url.search);
 
@@ -223,7 +232,8 @@ export default class EverflowSDK {
                         })
                     .then((response) => {
                         if (response.transaction_id && response.transaction_id.length > 0) {
-                            this._persist(`ef_tid_${options.offer_id}`, response.transaction_id);
+                            this._persist(`ef_tid_c_o_${options.offer_id}`, response.transaction_id);
+                            this._persist(`ef_tid_c_a_${response.aid}`, response.transaction_id);
                             resolve(response.transaction_id);
                         }
                     })
@@ -233,12 +243,31 @@ export default class EverflowSDK {
 
     conversion(options) {
         if (!options.transaction_id) {
-            options.transaction_id = this._fetch(`ef_tid_${options.offer_id}`);
+            if (this._isDefined(options.offer_id)) {
+                options.transaction_id = this._fetch(`ef_tid_c_o_${options.offer_id}`);
+                if (!options.transaction_id) {
+                    options.transaction_id = this._fetch(`ef_tid_i_o_${options.offer_id}`);
+                }
+                // Fallback for previous cookies when we did not have advertiser and offer cookies
+                if (!options.transaction_id) {
+                    options.transaction_id = this._fetch(`ef_tid_${options.offer_id}`);
+                }
+            } else if (this._isDefined(options.advertiser_id) || this._isDefined(options.aid)) {
+                const aid = options.advertiser_id || options.aid;
+                options.transaction_id = this._fetch(`ef_tid_c_a_${aid}`);
+                if (!options.transaction_id) {
+                    options.transaction_id = this._fetch(`ef_tid_i_a_${aid}`);
+                }
+                // Fallback for previous cookies when we did not have advertiser and offer cookies
+                if (!options.transaction_id) {
+                    options.transaction_id = this._fetch(`ef_tid_${options.offer_id}`);
+                }
+            }
         }
 
         return new Promise((resolve, reject) => {
             this.customParamProvider.then((customParams) => {
-                const url = new URL(`${this._trackingDomain}`)
+                const url = new URL(`${this._trackingDomain}/sdk/conversion`)
 
                 const queryParams = new URLSearchParams(url.search);
 
