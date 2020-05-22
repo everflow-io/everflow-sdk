@@ -24,7 +24,7 @@ export default class EverflowSDK {
     }
 
     getTransactionId(offerId) {
-        const tid = this._fetch(`ef_tid_c_o_${offerId}`);
+        let tid = this._fetch(`ef_tid_c_o_${offerId}`);
         if (!tid) {
             tid = this._fetch(`ef_tid_i_o_${offerId}`);
         }
