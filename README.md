@@ -65,7 +65,10 @@ EF.click({
 
  ```javascript
    EF.conversion({
+        // One of the following is required
         offer_id: 1, // Required. The offer id
+        aid: 1, // Required. The advertiser id
+        
         transaction_id: '', // Optional. The transaction id. If you have access to it, otherwise the SDK tries to locate one for the current user.
 
         amount: 0, // Optional. Amount in case of RPS offer
