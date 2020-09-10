@@ -24,8 +24,10 @@ export default class EverflowSDK {
     }
 
     getTransactionId(offerId) {
-        let tid = this._fetch(`ef_tid_c_o_${offerId}`);
-        if (!tid) {
+        let tid = this._fetch(`ef_tid_c_o_${offerId}`).split("|");
+        if (tid) {
+            tid = tid[tid.length - 1];
+        } else {
             tid = this._fetch(`ef_tid_i_o_${offerId}`);
         }
         // Fallback for previous cookies when we did not have advertiser and offer cookies
@@ -232,8 +234,10 @@ export default class EverflowSDK {
                         })
                     .then((response) => {
                         if (response.transaction_id && response.transaction_id.length > 0) {
-                            this._persist(`ef_tid_c_o_${response.oid || options.offer_id}`, response.transaction_id);
-                            this._persist(`ef_tid_c_a_${response.aid}`, response.transaction_id);
+                            const tidOffer = this._fetch(`ef_tid_c_o_${response.oid || options.offer_id}`);
+                            this._persist(`ef_tid_c_o_${response.oid || options.offer_id}`, tidOffer && tidOffer.length > 0 ? `${tidOffer}|${response.transaction_id}` : response.transaction_id);
+                            const tidAdv = this._fetch(`ef_tid_c_a_${response.aid}`);
+                            this._persist(`ef_tid_c_a_${response.aid}`, tidAdv && tidAdv.length > 0 ? `${tidAdv}|${response.transaction_id}` : response.transaction_id);
                             resolve(response.transaction_id);
                         }
                     })
@@ -263,6 +267,10 @@ export default class EverflowSDK {
                     options.transaction_id = this._fetch(`ef_tid_${options.offer_id}`);
                 }
             }
+        }
+
+        if (options.transaction_id && options.transaction_id.length > 164) {
+            options.transaction_id = options.transaction_id.substring(0, 33) + options.transaction_id.substring(options.transaction_id.length - 131, a.transaction_id.length);
         }
 
         return new Promise((resolve, reject) => {
