@@ -269,8 +269,8 @@ export default class EverflowSDK {
             }
         }
 
-        if (options.transaction_id && options.transaction_id.length > 164) {
-            options.transaction_id = options.transaction_id.substring(0, 33) + options.transaction_id.substring(options.transaction_id.length - 131, a.transaction_id.length);
+        if (options.transaction_id && options.transaction_id.length > 332) {
+            options.transaction_id = options.transaction_id.substring(0, 33) + options.transaction_id.substring(options.transaction_id.length - 297, options.transaction_id.length);
         }
 
         return new Promise((resolve, reject) => {
