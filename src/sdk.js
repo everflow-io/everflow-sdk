@@ -365,6 +365,10 @@ export default class EverflowSDK {
                     queryParams.set('verification_token', options.verification_token)
                 }
 
+                if (this._isDefined(options.email)) {
+                    queryParams.set('email', options.email)
+                }
+
                 if (this._isDefined(options.order)) {
                     queryParams.set('order', JSON.stringify(options.order));
                 }
