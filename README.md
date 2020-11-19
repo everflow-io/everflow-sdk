@@ -1,3 +1,5 @@
+![npm (scoped)](https://img.shields.io/npm/v/@everflow/everflow-sdk)
+
 ## Usage
 
 Get the lastest minified version of the SDK via the release section.
