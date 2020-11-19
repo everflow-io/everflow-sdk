@@ -1,4 +1,4 @@
-![npm (scoped)](https://img.shields.io/npm/v/@everflow/everflow-sdk)
+[![npm (scoped)](https://img.shields.io/npm/v/@everflow/everflow-sdk)](https://www.npmjs.com/package/@everflow/everflow-sdk)
 
 ## Usage
 
