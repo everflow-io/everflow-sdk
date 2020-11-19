@@ -2,7 +2,7 @@
 
 ## Usage
 
-Get the lastest minified version of the SDK via the release section.
+Get the latest version of the SDK on npm [here](https://www.npmjs.com/package/@everflow/everflow-sdk).
 
 Configure the SDK before doing any tracking.
 
