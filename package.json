@@ -1,5 +1,5 @@
 {
-  "name": "everflow-sdk",
+  "name": "@everflow-io/everflow-sdk",
   "version": "1.0.0",
   "description": "Everflow's javascript SDK",
   "main": "index.js",
@@ -12,6 +12,9 @@
     "type": "git",
     "url": "git+https://github.com/everflow-io/everflow-sdk.git"
   },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "author": "olivier@everflow.io",
   "license": "UNLICENSED",
   "bugs": {
@@ -21,7 +24,6 @@
   "dependencies": {
     "fingerprintjs2": "2.1.0",
     "url-polyfill": "^1.1.8",
-    "whatwg-fetch": "3.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.5.4",
