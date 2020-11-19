@@ -1,5 +1,5 @@
 {
-  "name": "@everflow-io/everflow-sdk",
+  "name": "@everflow/everflow-sdk",
   "version": "1.0.0",
   "description": "Everflow's javascript SDK",
   "main": "index.js",
@@ -11,9 +11,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/everflow-io/everflow-sdk.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
   },
   "author": "olivier@everflow.io",
   "license": "UNLICENSED",
