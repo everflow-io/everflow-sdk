@@ -429,7 +429,7 @@ export default class EverflowSDK {
     }
 
     _isDefined(value) {
-        return typeof value !== 'undefined';
+        return typeof value !== 'undefined' && value !== undefined && value !== null;
     }
 
     urlParameter(name) {
