@@ -23,6 +23,16 @@ export default class EverflowSDK {
         this._trackingDomain = options.tracking_domain;
     }
 
+    getAdvertiserTransactionId(advertiserId) {
+        let tid = this._fetch(`ef_tid_c_a_${advertiserId}`).split("|");
+        if (tid) {
+            tid = tid[tid.length - 1];
+        } else {
+            tid = this._fetch(`ef_tid_i_a_${advertiserId}`);
+        }
+        return tid;
+    }
+
     getTransactionId(offerId) {
         let tid = this._fetch(`ef_tid_c_o_${offerId}`).split("|");
         if (tid) {
