@@ -121,6 +121,10 @@ export default class EverflowSDK {
                     queryParams.set('creative_id', options.creative_id)
                 }
 
+                if (this._isDefined(options.fbclid)) {
+                    queryParams.set('fbclid', options.fbclid)
+                }
+
                 if (options.disable_fingerprinting === true) {
                     queryParams.delete('effp');
                 }
@@ -225,6 +229,10 @@ export default class EverflowSDK {
 
                 if (this._isDefined(options.creative_id)) {
                     queryParams.set('creative_id', options.creative_id)
+                }
+
+                if (this._isDefined(options.fbclid)) {
+                    queryParams.set('fbclid', options.fbclid)
                 }
 
                 if (options.disable_fingerprinting === true) {
