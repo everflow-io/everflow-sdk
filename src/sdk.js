@@ -123,6 +123,8 @@ export default class EverflowSDK {
 
                 if (this._isDefined(options.fbclid)) {
                     queryParams.set('fbclid', options.fbclid)
+                } else {
+                    this._setDefaultFromURL(queryParams, 'fbclid')
                 }
 
                 if (options.disable_fingerprinting === true) {
@@ -233,6 +235,8 @@ export default class EverflowSDK {
 
                 if (this._isDefined(options.fbclid)) {
                     queryParams.set('fbclid', options.fbclid)
+                } else {
+                    this._setDefaultFromURL(queryParams, 'fbclid')
                 }
 
                 if (options.disable_fingerprinting === true) {
@@ -448,6 +452,13 @@ export default class EverflowSDK {
 
     _isDefined(value) {
         return typeof value !== 'undefined' && value !== undefined && value !== null;
+    }
+
+    _setDefaultFromURL(queryParams, paramName) {
+        const paramValue = this.urlParameter(paramName);
+        if(this._isDefined(paramValue)) {
+            queryParams.set(paramName, paramValue);
+        }
     }
 
     urlParameter(name) {
