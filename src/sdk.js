@@ -403,6 +403,8 @@ export default class EverflowSDK {
                     Object.keys(options.parameters).forEach(p => queryParams.set(p, options.parameters[p]));
                 }
 
+                queryParams.set('event_source_url', window.location.hostname)
+
                 url.search = queryParams.toString();
 
                 fetch(url.toString(), {
