@@ -1,5 +1,6 @@
 import 'whatwg-fetch';
 import 'url-polyfill';
+import 'promise-polyfill/src/polyfill';
 
 export default class EverflowSDK {
     constructor(customParamProvider) {
