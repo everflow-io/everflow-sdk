@@ -11,7 +11,9 @@ export default {
         format: 'iife'
     },
     plugins: [
-        resolve(),
+        resolve({
+            browser: true,
+        }),
         commonjs(),
         babel({
             babelrc: false,
