@@ -216,7 +216,7 @@ export default class EverflowSDK {
 
                 if (this._isDefined(options.adv3)) {
                     queryParams.set('adv3', options.adv3)
-                }
+                }   
 
                 if (this._isDefined(options.adv4)) {
                     queryParams.set('adv4', options.adv4)
@@ -268,6 +268,8 @@ export default class EverflowSDK {
                             const tidAdv = this._fetch(`ef_tid_c_a_${response.aid}`);
                             this._persist(`ef_tid_c_a_${response.aid}`, tidAdv && tidAdv.length > 0 ? `${tidAdv}|${response.transaction_id}` : response.transaction_id);
                             resolve(response.transaction_id);
+                        } else {
+                            resolve("");
                         }
                     })
             });
