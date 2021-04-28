@@ -216,7 +216,7 @@ export default class EverflowSDK {
 
                 if (this._isDefined(options.adv3)) {
                     queryParams.set('adv3', options.adv3)
-                }   
+                }
 
                 if (this._isDefined(options.adv4)) {
                     queryParams.set('adv4', options.adv4)
