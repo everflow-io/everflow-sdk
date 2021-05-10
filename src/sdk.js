@@ -234,6 +234,10 @@ export default class EverflowSDK {
                     queryParams.set('creative_id', options.creative_id)
                 }
 
+                if (this._isDefined(options.cost)) {
+                    queryParams.set('cost', options.cost)
+                }
+
                 if (this._isDefined(options.fbclid)) {
                     queryParams.set('fbclid', options.fbclid)
                 } else {
