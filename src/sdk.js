@@ -254,6 +254,10 @@ export default class EverflowSDK {
                     queryParams.delete('effp');
                 }
 
+                if (this._isDefined(options.parameters)) {
+                    Object.keys(options.parameters).forEach(p => queryParams.set(p, options.parameters[p]));
+                }
+
                 url.search = queryParams.toString();
 
                 fetch(url.toString(), {
