@@ -130,6 +130,16 @@ export default class EverflowSDK {
                     this._setDefaultFromURL(queryParams, 'fbclid')
                 }
 
+                if (this._isDefined(options.gclid)) {
+                    queryParams.set('gclid', options.gclid)
+                } else {
+                    this._setDefaultFromURL(queryParams, 'gclid')
+                }
+
+                if (this._isDefined(options.parameters)) {
+                    Object.keys(options.parameters).forEach(p => queryParams.set(p, options.parameters[p]));
+                }
+
                 if (options.disable_fingerprinting === true) {
                     queryParams.delete('effp');
                 }
