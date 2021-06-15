@@ -136,6 +136,10 @@ export default class EverflowSDK {
                     this._setDefaultFromURL(queryParams, 'gclid')
                 }
 
+                if (this._isDefined(options.coupon_code)) {
+                    queryParams.set('__cc', options.coupon_code || '');
+                }
+
                 if (this._isDefined(options.parameters)) {
                     Object.keys(options.parameters).forEach(p => queryParams.set(p, options.parameters[p]));
                 }
