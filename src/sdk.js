@@ -49,7 +49,7 @@ export default class EverflowSDK {
     }
 
     impression(options) {
-        if (!options.offer_id) {
+        if (!options.offer_id && !options.coupon_code) {
             console.warn(`Unable to track. Missing "offer_id" parameter.`)
             return Promise.resolve("");
         }
