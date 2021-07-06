@@ -1,4 +1,5 @@
 import Fingerprint2 from 'fingerprintjs2';
+import tldjs from 'tldjs';
 import EF from './sdk.js'
 
 class SDK extends EF {
@@ -51,7 +52,12 @@ class SDK extends EF {
         const d = new Date();
         d.setTime(d.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
 
-        document.cookie = `${key}=${value};expires=${d.toUTCString()};path=/`
+        const tld = tldjs.getDomain(location.host);
+        if(tld) {
+            document.cookie = `${key}=${value};expires=${d.toUTCString()};path=/;domain=.${tld}`
+        } else {
+            document.cookie = `${key}=${value};expires=${d.toUTCString()};path=/`
+        }
 
         const entry = {
             value: value,

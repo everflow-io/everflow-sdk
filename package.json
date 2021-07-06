@@ -21,12 +21,14 @@
   "dependencies": {
     "fingerprintjs2": "2.1.0",
     "promise-polyfill": "8.2.0",
+    "tldjs": "^2.3.1",
     "url-polyfill": "^1.1.12",
     "whatwg-fetch": "^3.6.2"
   },
   "devDependencies": {
     "@babel/core": "7.5.4",
     "@babel/preset-env": "7.5.4",
+    "@rollup/plugin-json": "^4.1.0",
     "babelrc-rollup": "3.0.0",
     "rollup": "^2.50.3",
     "rollup-plugin-babel": "4.3.3",
