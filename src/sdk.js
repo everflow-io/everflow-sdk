@@ -430,6 +430,10 @@ export default class EverflowSDK {
                     queryParams.set('order', JSON.stringify(options.order));
                 }
 
+                if (this._isDefined(options.user_id)) {
+                    queryParams.set('user_id', options.user_id);
+                }
+
                 if (options.disable_fingerprinting === true) {
                     queryParams.delete('effp');
                 }
