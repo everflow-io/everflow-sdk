@@ -161,8 +161,10 @@ export default class EverflowSDK {
                         })
                     .then((response) => {
                         if (response.transaction_id && response.transaction_id.length > 0) {
-                            this._persist(`ef_tid_i_o_${response.oid || options.offer_id}`, response.transaction_id);
-                            this._persist(`ef_tid_i_a_${response.aid}`, response.transaction_id);
+                            const tidOffer = this._fetch(`ef_tid_i_o_${response.oid || options.offer_id}`);
+                            this._persist(`ef_tid_i_o_${response.oid || options.offer_id}`, tidOffer && tidOffer.length > 0 ? `${tidOffer}|${response.transaction_id}` : response.transaction_id);
+                            const tidAdv = this._fetch(`ef_tid_i_a_${response.aid}`);
+                            this._persist(`ef_tid_i_a_${response.aid}`, tidAdv && tidAdv.length > 0 ? `${tidAdv}|${response.transaction_id}` : response.transaction_id);
                             resolve(response.transaction_id);
                         }
                     })
