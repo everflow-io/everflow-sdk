@@ -25,6 +25,10 @@ class SDK extends EF {
         const d = new Date();
         d.setTime(d.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
 
+        if (value.length > 1650) {
+            value = value.substring(0, 33) + value.substring(value.length - 1616, value.length);
+        }
+
         document.cookie = `${key}=${value};expires=${d.toUTCString()};path=/`
     }
 }
