@@ -55,7 +55,11 @@ class SDK extends EF {
             value = value.substring(0, 33) + value.substring(value.length - 1616, value.length);
         }
 
-        document.cookie = `${key}=${value};expires=${d.toUTCString()};path=/`
+        if (this._tld) {
+            document.cookie = `${key}=${value};expires=${d.toUTCString()};path=/;domain=${this._tld}`
+        } else {
+            document.cookie = `${key}=${value};expires=${d.toUTCString()};path=/`
+        }
 
         const entry = {
             value: value,

@@ -21,7 +21,12 @@ export default class EverflowSDK {
     }
 
     configure(options) {
-        this._trackingDomain = options.tracking_domain;
+        if (this._isDefined(options.tracking_domain)) {
+            this._trackingDomain = options.tracking_domain;
+        }
+        if (this._isDefined(options.tld)) {
+            this._tld = options.tld;
+        }
     }
 
     getAdvertiserTransactionId(advertiserId) {
@@ -499,7 +504,7 @@ export default class EverflowSDK {
 
     _setDefaultFromURL(queryParams, paramName) {
         const paramValue = this.urlParameter(paramName);
-        if(this._isDefined(paramValue)) {
+        if (this._isDefined(paramValue)) {
             queryParams.set(paramName, paramValue);
         }
     }
