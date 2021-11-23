@@ -1,6 +1,6 @@
 {
   "name": "@everflow/everflow-sdk",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Everflow's javascript SDK",
   "main": "index.js",
   "scripts": {
