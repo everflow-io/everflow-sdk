@@ -23,7 +23,7 @@ Depending on your use case you should pick one of the two.
 ```javascript
 const Everflow = require('@everflow/everflow-sdk');
 
-const EverflowSK = Everflow.EverflowFingerprintSDK;
+const EverflowSDK = Everflow.EverflowFingerprintSDK;
 
 EverflowSDK.configure({
     // You only need to set the tracking domain you want to use
