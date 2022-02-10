@@ -1,6 +1,6 @@
 {
   "name": "@everflow/everflow-sdk",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Everflow's javascript SDK",
   "main": "dist/bundle.js",
   "scripts": {
