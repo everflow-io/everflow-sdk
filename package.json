@@ -2,11 +2,12 @@
   "name": "@everflow/everflow-sdk",
   "version": "1.0.8",
   "description": "Everflow's javascript SDK",
-  "main": "index.js",
+  "main": "dist/bundle.js",
   "scripts": {
     "vanilla": "rollup -c rollup.vanilla.config.js",
     "fp": "rollup -c rollup.fp.config.js",
-    "build": "npm run vanilla && npm run fp"
+    "umd": "rollup -c rollup.npm.config.js",
+    "build": "npm run vanilla && npm run fp && npm run umd"
   },
   "repository": {
     "type": "git",
