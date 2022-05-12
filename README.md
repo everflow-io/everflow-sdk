@@ -13,24 +13,16 @@ EF.configure({
 })
 ```
 
-If using the NPM module, 2 versions of the SDK are exported:
-
-- The fingerprint SDK
-- The vanilla SDK (Does not include the fingerprinting library)
-
-Depending on your use case you should pick one of the two.
+If using the NPM module, the Everflow SDK instance is exported as default.
 
 ```javascript
-const Everflow = require('@everflow/everflow-sdk');
-
-const EverflowSDK = Everflow.EverflowFingerprintSDK;
+const EverflowSDK = require('@everflow/everflow-sdk');
 
 EverflowSDK.configure({
     // You only need to set the tracking domain you want to use
     tracking_domain: 'https://<tracking-domain>.com',
 })
 ```
-
 
 ## [Documentation](https://developers.everflow.io/docs/everflow-sdk)
 Usage directives and examples can be found on our developer hub
