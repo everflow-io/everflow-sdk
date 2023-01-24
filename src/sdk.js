@@ -141,6 +141,12 @@ export default class EverflowSDK {
                     this._setDefaultFromURL(queryParams, 'gclid')
                 }
 
+                if (this._isDefined(options.ttclid)) {
+                    queryParams.set('ttclid', options.ttclid)
+                } else {
+                    this._setDefaultFromURL(queryParams, 'ttclid')
+                }
+
                 if (this._isDefined(options.coupon_code)) {
                     queryParams.set('__cc', options.coupon_code || '');
                 }
@@ -273,6 +279,12 @@ export default class EverflowSDK {
                     queryParams.set('gclid', options.gclid)
                 } else {
                     this._setDefaultFromURL(queryParams, 'gclid')
+                }
+
+                if (this._isDefined(options.ttclid)) {
+                    queryParams.set('ttclid', options.ttclid)
+                } else {
+                    this._setDefaultFromURL(queryParams, 'ttclid')
                 }
 
                 if (options.disable_fingerprinting === true) {
