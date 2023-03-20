@@ -6,19 +6,18 @@ class SDK extends EF {
     }
 
     _fetch(key) {
-        const name = key + "=";
-        const decodedCookie = decodeURIComponent(document.cookie);
-        const ca = decodedCookie.split(';');
-        for (var i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return '';
+        const cookies = document.cookie
+            .split(';')
+            .map(v => v.split('='))
+            .reduce((acc, v) => {
+                try {
+                    acc[decodeURIComponent(v[0].trim())] = decodeURIComponent(v[1].trim());
+                }
+                catch (e) { }
+                return acc;
+            }, {});
+
+        return cookies[key] ? cookies[key].trim() : '';
     }
 
     _persist(key, value, expirationDays = 30) {

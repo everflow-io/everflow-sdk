@@ -18,6 +18,7 @@ export default class EverflowSDK {
 
         this.customParamProvider = customParamProvider;
         this._trackingDomain = '<<.TrackingDomain>>';
+        this._organicEnabled = false;
     }
 
     configure(options) {
@@ -26,6 +27,19 @@ export default class EverflowSDK {
         }
         if (this._isDefined(options.tld)) {
             this._tld = options.tld;
+        }
+        if (this._isDefined(options.organic)) {
+            if (this._isDefined(options.organic.offer_id) && this._isDefined(options.organic.affiliate_id)) {
+                this._organicEnabled = true;
+                this._organicOptions = Object.assign(
+                    this._getDefaultOrganicClickOptions(),
+                    options.organic.options || {},
+                    { affiliate_id: options.organic.affiliate_id, offer_id: options.organic.offer_id }
+                );
+            }
+            else {
+                console.warn(`Unable to setup organic tracking. Missing "organic.offer_id" or "organic.affiliate_id" parameter.`)
+            }
         }
     }
 
@@ -64,7 +78,7 @@ export default class EverflowSDK {
         }
 
         return new Promise((resolve, reject) => {
-            this.customParamProvider.then((customParams) => {
+            this._getCustomParams().then((customParams) => {
                 const trackingDomain = this._isDefined(options.tracking_domain) ? options.tracking_domain : this._trackingDomain;
 
                 const url = new URL(`${trackingDomain}/sdk/impression`)
@@ -183,18 +197,64 @@ export default class EverflowSDK {
         });
     }
 
-    click(options) {
-        if (!options.offer_id && !options.transaction_id && !options.coupon_code) {
-            console.warn(`Unable to track. Missing "offer_id" or "transaction_id" parameter.`)
-            return Promise.resolve("");
+    _getDefaultOrganicClickOptions() {
+        let sub1 = "";
+
+        if (this.urlParameter('fbclid')) {
+            sub1 = "Facebook";
+            if (this.urlParameter('fbclid').slice(0, 3) === "PAA") {
+                sub1 = "Instagram";
+            }
         }
 
+        if (this.urlParameter('gclid')) {
+            sub1 = "Google"
+        }
+
+        if (this.urlParameter('ttclid')) {
+            sub1 = "Tiktok"
+        }
+
+        if (this.urlParameter('MSCLKID') || this.urlParameter('msclkid')) {
+            sub1 = "Microsoft"
+        }
+
+        if (this.urlParameter('OutbrainClickId')) {
+            sub1 = "Outbrain"
+        }
+
+        if (this.urlParameter('TCLID')) {
+            sub1 = "Taboola"
+        }
+
+        return {
+            sub1: this.urlParameter('sub1') || sub1,
+            sub2: this.urlParameter('sub2') || document.referrer,
+            sub3: this.urlParameter('sub3') || '/' + window.location.pathname.split('/')[1],
+            sub4: this.urlParameter('sub4') || window.location.pathname,
+            sub5: this.urlParameter('sub5') || window.location.search,
+            source_id: this.urlParameter('source_id') || "organic",
+            transaction_id: this.urlParameter('_ef_transaction_id'),
+            organic: 1
+        }
+    }
+
+    click(options) {
         if (options.do_not_track === true) {
             return Promise.resolve("");
         }
 
+        if (!options.offer_id && !options.transaction_id && !options.coupon_code) {
+            if (this._organicEnabled || !this._fetch('ef_witness')) {
+                options = this._organicOptions;
+            } else {
+                console.warn(`Unable to track. Missing "offer_id" or "transaction_id" parameter.`)
+                return Promise.resolve("");
+            }
+        }
+
         return new Promise((resolve, reject) => {
-            this.customParamProvider.then((customParams) => {
+            this._getCustomParams().then((customParams) => {
                 const trackingDomain = this._isDefined(options.tracking_domain) ? options.tracking_domain : this._trackingDomain;
 
                 const url = new URL(`${trackingDomain}/sdk/click`)
@@ -265,6 +325,10 @@ export default class EverflowSDK {
                     queryParams.set('creative_id', options.creative_id)
                 }
 
+                if (this._isDefined(options.organic)) {
+                    queryParams.set('__organic_click', options.organic || '');
+                }
+
                 if (this._isDefined(options.cost)) {
                     queryParams.set('cost', options.cost)
                 }
@@ -308,6 +372,7 @@ export default class EverflowSDK {
                         })
                     .then((response) => {
                         if (response.transaction_id && response.transaction_id.length > 0) {
+                            this._persist('ef_witness', '1');
                             const tidOffer = this._fetch(`ef_tid_c_o_${response.oid || options.offer_id}`);
                             this._persist(`ef_tid_c_o_${response.oid || options.offer_id}`, tidOffer && tidOffer.length > 0 ? `${tidOffer}|${response.transaction_id}` : response.transaction_id);
                             const tidAdv = this._fetch(`ef_tid_c_a_${response.aid}`);
@@ -348,7 +413,7 @@ export default class EverflowSDK {
         }
 
         return new Promise((resolve, reject) => {
-            this.customParamProvider.then((customParams) => {
+            this._getCustomParams().then((customParams) => {
                 const trackingDomain = this._isDefined(options.tracking_domain) ? options.tracking_domain : this._trackingDomain;
 
                 const url = new URL(`${trackingDomain}/sdk/conversion`)
@@ -500,6 +565,32 @@ export default class EverflowSDK {
                     })
             });
         });
+    }
+
+    _getCustomParams() {
+        return Promise.all([
+            this.customParamProvider,
+            this._getClientHints()
+        ]).then((params) => {
+            return params.reduce((a, b) => Object.assign(a, b), {})
+        })
+    }
+
+    _getClientHints() {
+        if (window.navigator.userAgentData) {
+            return navigator.userAgentData.getHighEntropyValues(
+                [
+                    "platform",
+                    "platformVersion"
+                ])
+                .then((ua) => {
+                    return {
+                        sec_ch_ua_platform: ua.platform,
+                        sec_ch_ua_platform_version: ua.platformVersion,
+                    }
+                });
+        }
+        return Promise.resolve({})
     }
 
     _fetch(key) {
