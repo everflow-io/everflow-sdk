@@ -245,7 +245,7 @@ export default class EverflowSDK {
         }
 
         if (!options.offer_id && !options.transaction_id && !options.coupon_code) {
-            if (this._organicEnabled || !this._fetch('ef_witness')) {
+            if (this._organicEnabled && !this._fetch('ef_witness')) {
                 options = this._organicOptions;
             } else {
                 console.warn(`Unable to track. Missing "offer_id" or "transaction_id" parameter.`)
