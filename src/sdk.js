@@ -581,12 +581,14 @@ export default class EverflowSDK {
             return navigator.userAgentData.getHighEntropyValues(
                 [
                     "platform",
-                    "platformVersion"
+                    "platformVersion",
+                    "model"
                 ])
                 .then((ua) => {
                     return {
                         sec_ch_ua_platform: ua.platform,
                         sec_ch_ua_platform_version: ua.platformVersion,
+                        sec_ch_ua_model: ua.model,
                     }
                 });
         }
