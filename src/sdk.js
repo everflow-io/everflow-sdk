@@ -374,9 +374,9 @@ export default class EverflowSDK {
                         if (response.transaction_id && response.transaction_id.length > 0) {
                             this._persist('ef_witness', '1');
                             const tidOffer = this._fetch(`ef_tid_c_o_${response.oid || options.offer_id}`);
-                            this._persist(`ef_tid_c_o_${response.oid || options.offer_id}`, tidOffer && tidOffer.length > 0 ? `${tidOffer}|${response.transaction_id}` : response.transaction_id);
+                            this._persist(`ef_tid_c_o_${response.oid || options.offer_id}`, tidOffer && tidOffer.length > 0 ? `${tidOffer}|${response.transaction_id}` : response.transaction_id, response.session_duration > 0 ? response.session_duration : 30 * 24);
                             const tidAdv = this._fetch(`ef_tid_c_a_${response.aid}`);
-                            this._persist(`ef_tid_c_a_${response.aid}`, tidAdv && tidAdv.length > 0 ? `${tidAdv}|${response.transaction_id}` : response.transaction_id);
+                            this._persist(`ef_tid_c_a_${response.aid}`, tidAdv && tidAdv.length > 0 ? `${tidAdv}|${response.transaction_id}` : response.transaction_id, response.session_duration > 0 ? response.session_duration : 30 * 24);
                             resolve(response.transaction_id);
                         }
                     })
@@ -599,7 +599,7 @@ export default class EverflowSDK {
         throw new TypeError("Do not call abstract method _fetch")
     }
 
-    _persist(key, value, expirationDays = 30) {
+    _persist(key, value, expirationHours = 24 * 30) {
         throw new TypeError("Do not call abstract method _persist")
     }
 
