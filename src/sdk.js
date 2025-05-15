@@ -44,8 +44,15 @@ export default class EverflowSDK {
     }
 
     getAdvertiserTransactionId(advertiserId) {
-        let tid = this._fetch(`ef_tid_c_a_${advertiserId}`).split("|");
+        let tid = this._fetch(`ef_tid_c_a_${advertiserId}`);
+
         if (tid) {
+            tid = tid.split("|");
+        } else {
+            tid = [];
+        }
+
+        if (tid.length > 0) {
             tid = tid[tid.length - 1];
         } else {
             tid = this._fetch(`ef_tid_i_a_${advertiserId}`);
@@ -54,8 +61,15 @@ export default class EverflowSDK {
     }
 
     getTransactionId(offerId) {
-        let tid = this._fetch(`ef_tid_c_o_${offerId}`).split("|");
+        let tid = this._fetch(`ef_tid_c_o_${offerId}`);
+
         if (tid) {
+            tid = tid.split("|");
+        } else {
+            tid = [];
+        }
+
+        if (tid.length > 0) {
             tid = tid[tid.length - 1];
         } else {
             tid = this._fetch(`ef_tid_i_o_${offerId}`);
