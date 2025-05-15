@@ -369,6 +369,16 @@ export default class EverflowSDK {
                     queryParams.delete('effp');
                 }
 
+                queryParams.set("__rf", document.referrer);
+
+                // Add unique flag
+                if (this._isDefined(options.offer_id)) {
+                    const existingTid = this.getTransactionId(options.offer_id);
+                    // If unique, send back even number ; if not, send back odd number
+                    const value = Math.floor(Math.random() * 100);
+                    queryParams.set('__efckuq', existingTid !== '' ? (value * 2 + 1) : (value % 2 === 0 ? value : value + 1));
+                }
+
                 if (this._isDefined(options.parameters)) {
                     Object.keys(options.parameters).forEach(p => queryParams.set(p, options.parameters[p]));
                 }
@@ -613,7 +623,7 @@ export default class EverflowSDK {
         throw new TypeError("Do not call abstract method _fetch")
     }
 
-    _persist(key, value, expirationHours = 24 * 30) {
+    _persist(key, value, expirationHours = 30 * 24) {
         throw new TypeError("Do not call abstract method _persist")
     }
 
