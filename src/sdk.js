@@ -44,8 +44,15 @@ export default class EverflowSDK {
     }
 
     getAdvertiserTransactionId(advertiserId) {
-        let tid = this._fetch(`ef_tid_c_a_${advertiserId}`).split("|");
+        let tid = this._fetch(`ef_tid_c_a_${advertiserId}`);
+
         if (tid) {
+            tid = tid.split("|");
+        } else {
+            tid = [];
+        }
+
+        if (tid.length > 0) {
             tid = tid[tid.length - 1];
         } else {
             tid = this._fetch(`ef_tid_i_a_${advertiserId}`);
@@ -54,8 +61,15 @@ export default class EverflowSDK {
     }
 
     getTransactionId(offerId) {
-        let tid = this._fetch(`ef_tid_c_o_${offerId}`).split("|");
+        let tid = this._fetch(`ef_tid_c_o_${offerId}`);
+
         if (tid) {
+            tid = tid.split("|");
+        } else {
+            tid = [];
+        }
+
+        if (tid.length > 0) {
             tid = tid[tid.length - 1];
         } else {
             tid = this._fetch(`ef_tid_i_o_${offerId}`);
@@ -355,6 +369,16 @@ export default class EverflowSDK {
                     queryParams.delete('effp');
                 }
 
+                queryParams.set("__rf", document.referrer);
+
+                // Add unique flag
+                if (this._isDefined(options.offer_id)) {
+                    const existingTid = this.getTransactionId(options.offer_id);
+                    // If unique, send back even number ; if not, send back odd number
+                    const value = Math.floor(Math.random() * 100);
+                    queryParams.set('__efckuq', existingTid !== '' ? (value * 2 + 1) : (value % 2 === 0 ? value : value + 1));
+                }
+
                 if (this._isDefined(options.parameters)) {
                     Object.keys(options.parameters).forEach(p => queryParams.set(p, options.parameters[p]));
                 }
@@ -374,9 +398,9 @@ export default class EverflowSDK {
                         if (response.transaction_id && response.transaction_id.length > 0) {
                             this._persist('ef_witness', '1');
                             const tidOffer = this._fetch(`ef_tid_c_o_${response.oid || options.offer_id}`);
-                            this._persist(`ef_tid_c_o_${response.oid || options.offer_id}`, tidOffer && tidOffer.length > 0 ? `${tidOffer}|${response.transaction_id}` : response.transaction_id);
+                            this._persist(`ef_tid_c_o_${response.oid || options.offer_id}`, tidOffer && tidOffer.length > 0 ? `${tidOffer}|${response.transaction_id}` : response.transaction_id, response.session_duration > 0 ? response.session_duration : 30 * 24);
                             const tidAdv = this._fetch(`ef_tid_c_a_${response.aid}`);
-                            this._persist(`ef_tid_c_a_${response.aid}`, tidAdv && tidAdv.length > 0 ? `${tidAdv}|${response.transaction_id}` : response.transaction_id);
+                            this._persist(`ef_tid_c_a_${response.aid}`, tidAdv && tidAdv.length > 0 ? `${tidAdv}|${response.transaction_id}` : response.transaction_id, response.session_duration > 0 ? response.session_duration : 30 * 24);
                             resolve(response.transaction_id);
                         }
                     })
@@ -599,7 +623,7 @@ export default class EverflowSDK {
         throw new TypeError("Do not call abstract method _fetch")
     }
 
-    _persist(key, value, expirationDays = 30) {
+    _persist(key, value, expirationHours = 30 * 24) {
         throw new TypeError("Do not call abstract method _persist")
     }
 

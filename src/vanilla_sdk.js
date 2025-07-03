@@ -20,9 +20,9 @@ class SDK extends EF {
         return cookies[key] ? cookies[key].trim() : '';
     }
 
-    _persist(key, value, expirationDays = 30) {
+    _persist(key, value, expirationHours = 24 * 30) {
         const d = new Date();
-        d.setTime(d.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
+        d.setTime(d.getTime() + (expirationHours * 60 * 60 * 1000));
 
         if (value.length > 1650) {
             value = value.substring(0, 33) + value.substring(value.length - 1616, value.length);
