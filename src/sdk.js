@@ -178,7 +178,7 @@ export default class EverflowSDK {
                 if (this._isDefined(options.sccid)) {
                     queryParams.set('sccid', options.sccid)
                 } else {
-                    this._setDefaultFromURL(queryParams, 'sccid')
+                    this._setDefaultFromURL(queryParams, 'ScCid')
                 }
 
                 if (this._isDefined(options.coupon_code)) {
@@ -378,7 +378,7 @@ export default class EverflowSDK {
                 if (this._isDefined(options.sccid)) {
                     queryParams.set('sccid', options.sccid)
                 } else {
-                    this._setDefaultFromURL(queryParams, 'sccid')
+                    this._setDefaultFromURL(queryParams, 'ScCid')
                 }
 
                 if (options.disable_fingerprinting === true) {
