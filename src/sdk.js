@@ -175,6 +175,12 @@ export default class EverflowSDK {
                     this._setDefaultFromURL(queryParams, 'ttclid')
                 }
 
+                if (this._isDefined(options.sccid)) {
+                    queryParams.set('sccid', options.sccid)
+                } else {
+                    this._setDefaultFromURL(queryParams, 'sccid')
+                }
+
                 if (this._isDefined(options.coupon_code)) {
                     queryParams.set('__cc', options.coupon_code || '');
                 }
@@ -227,6 +233,10 @@ export default class EverflowSDK {
 
         if (this.urlParameter('ttclid')) {
             sub1 = "Tiktok"
+        }
+
+        if (this.urlParameter('sccid')) {
+            sub1 = "Snapchat"
         }
 
         if (this.urlParameter('MSCLKID') || this.urlParameter('msclkid')) {
@@ -363,6 +373,12 @@ export default class EverflowSDK {
                     queryParams.set('ttclid', options.ttclid)
                 } else {
                     this._setDefaultFromURL(queryParams, 'ttclid')
+                }
+
+                if (this._isDefined(options.sccid)) {
+                    queryParams.set('sccid', options.sccid)
+                } else {
+                    this._setDefaultFromURL(queryParams, 'sccid')
                 }
 
                 if (options.disable_fingerprinting === true) {
