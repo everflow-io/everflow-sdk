@@ -389,7 +389,7 @@ export default class EverflowSDK {
 
                 // Add unique flag
                 if (this._isDefined(options.offer_id)) {
-                    const existingTid = this.getTransactionId(options.offer_id);
+                    const existingTid = this._fetch(`ef_session_${options.offer_id}`);
                     // If unique, send back even number ; if not, send back odd number
                     const value = Math.floor(Math.random() * 100);
                     queryParams.set('__efckuq', existingTid !== '' ? (value * 2 + 1) : (value % 2 === 0 ? value : value + 1));
@@ -413,10 +413,11 @@ export default class EverflowSDK {
                     .then((response) => {
                         if (response.transaction_id && response.transaction_id.length > 0) {
                             this._persist('ef_witness', '1');
+                            this._persist(`ef_session_${response.oid || options.offer_id}`, '1', response.session_duration > 0 ? response.session_duration : 30 * 24);
                             const tidOffer = this._fetch(`ef_tid_c_o_${response.oid || options.offer_id}`);
-                            this._persist(`ef_tid_c_o_${response.oid || options.offer_id}`, tidOffer && tidOffer.length > 0 ? `${tidOffer}|${response.transaction_id}` : response.transaction_id, response.session_duration > 0 ? response.session_duration : 30 * 24);
+                            this._persist(`ef_tid_c_o_${response.oid || options.offer_id}`, tidOffer && tidOffer.length > 0 ? `${tidOffer}|${response.transaction_id}` : response.transaction_id);
                             const tidAdv = this._fetch(`ef_tid_c_a_${response.aid}`);
-                            this._persist(`ef_tid_c_a_${response.aid}`, tidAdv && tidAdv.length > 0 ? `${tidAdv}|${response.transaction_id}` : response.transaction_id, response.session_duration > 0 ? response.session_duration : 30 * 24);
+                            this._persist(`ef_tid_c_a_${response.aid}`, tidAdv && tidAdv.length > 0 ? `${tidAdv}|${response.transaction_id}` : response.transaction_id);
                             resolve(response.transaction_id);
                         }
                     })
