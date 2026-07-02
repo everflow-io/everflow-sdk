@@ -190,6 +190,12 @@ export default class EverflowSDK {
           this._setDefaultFromURL(queryParams, "ScCid");
         }
 
+        if (this._isDefined(options.alt_tid)) {
+          queryParams.set("alt_tid", options.alt_tid);
+        } else {
+          this._setDefaultFromURL(queryParams, "alt_tid");
+        }
+
         if (this._isDefined(options.coupon_code)) {
           queryParams.set("__cc", options.coupon_code || "");
         }
@@ -275,6 +281,8 @@ export default class EverflowSDK {
     if (this.urlParameter("TCLID")) {
       sub1 = "Taboola";
     }
+
+    // No support for alt_tid on organic clicks
 
     return {
       sub1: this.urlParameter("sub1") || sub1,
@@ -410,6 +418,12 @@ export default class EverflowSDK {
           queryParams.set("sccid", options.sccid);
         } else {
           this._setDefaultFromURL(queryParams, "ScCid");
+        }
+
+        if (this._isDefined(options.alt_tid)) {
+          queryParams.set("alt_tid", options.alt_tid);
+        } else {
+          this._setDefaultFromURL(queryParams, "alt_tid");
         }
 
         if (options.disable_fingerprinting === true) {
