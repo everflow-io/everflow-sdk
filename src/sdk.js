@@ -138,6 +138,26 @@ export default class EverflowSDK {
           queryParams.set("sub5", options.sub5);
         }
 
+        if (this._isDefined(options.sub6)) {
+            queryParams.set("sub6", options.sub6);
+        }
+
+        if (this._isDefined(options.sub7)) {
+            queryParams.set("sub7", options.sub7);
+        }
+
+        if (this._isDefined(options.sub8)) {
+            queryParams.set("sub8", options.sub8);
+        }
+
+        if (this._isDefined(options.sub9)) {
+            queryParams.set("sub9", options.sub9);
+        }
+
+        if (this._isDefined(options.sub10)) {
+            queryParams.set("sub10", options.sub10);
+        }
+
         if (this._isDefined(options.adv1)) {
           queryParams.set("adv1", options.adv1);
         }
@@ -156,6 +176,26 @@ export default class EverflowSDK {
 
         if (this._isDefined(options.adv5)) {
           queryParams.set("adv5", options.adv5);
+        }
+
+        if (this._isDefined(options.adv6)) {
+            queryParams.set("adv6", options.adv6);
+        }
+
+        if (this._isDefined(options.adv7)) {
+            queryParams.set("adv7", options.adv7);
+        }
+
+        if (this._isDefined(options.adv8)) {
+            queryParams.set("adv8", options.adv8);
+        }
+
+        if (this._isDefined(options.adv9)) {
+            queryParams.set("adv9", options.adv9);
+        }
+
+        if (this._isDefined(options.adv10)) {
+            queryParams.set("adv10", options.adv10);
         }
 
         if (this._isDefined(options.source_id)) {
@@ -250,7 +290,12 @@ export default class EverflowSDK {
 
   _getDefaultOrganicClickOptions() {
     let sub1 = "";
-
+    let sub6 = "";
+    let sub7 = "";
+    let sub8 = "";
+    let sub9 = "";
+    let sub10 = "";
+        
     if (this.urlParameter("fbclid")) {
       sub1 = "Facebook";
       if (this.urlParameter("fbclid").slice(0, 3) === "PAA") {
@@ -292,6 +337,11 @@ export default class EverflowSDK {
         "/" + window.location.pathname.split("/")[1],
       sub4: this.urlParameter("sub4") || window.location.pathname,
       sub5: this.urlParameter("sub5") || window.location.search,
+      sub6: this.urlParameter("sub6") || sub6,
+      sub7: this.urlParameter("sub7") || sub7,
+      sub8: this.urlParameter("sub8") || sub8,
+      sub9: this.urlParameter("sub9") || sub9,
+      sub10: this.urlParameter("sub10") || sub10,
       source_id: this.urlParameter("source_id") || "organic",
       transaction_id: this.urlParameter("_ef_transaction_id"),
       organic: 1,
@@ -360,6 +410,26 @@ export default class EverflowSDK {
           queryParams.set("sub5", options.sub5);
         }
 
+        if (this._isDefined(options.sub6)) {
+          queryParams.set("sub6", options.sub6);
+        }
+
+        if (this._isDefined(options.sub7)) {
+          queryParams.set("sub7", options.sub7);
+        }
+
+        if (this._isDefined(options.sub8)) {
+          queryParams.set("sub8", options.sub8);
+        }
+
+        if (this._isDefined(options.sub9)) {
+          queryParams.set("sub9", options.sub9);
+        }
+
+        if (this._isDefined(options.sub10)) {
+          queryParams.set("sub10", options.sub10);
+        }
+
         if (this._isDefined(options.adv1)) {
           queryParams.set("adv1", options.adv1);
         }
@@ -378,6 +448,26 @@ export default class EverflowSDK {
 
         if (this._isDefined(options.adv5)) {
           queryParams.set("adv5", options.adv5);
+        }
+
+        if (this._isDefined(options.adv6)) {
+          queryParams.set("adv6", options.adv6);
+        }
+
+        if (this._isDefined(options.adv7)) {
+          queryParams.set("adv7", options.adv7);
+        }
+
+        if (this._isDefined(options.adv8)) {
+          queryParams.set("adv8", options.adv8);
+        }
+
+        if (this._isDefined(options.adv9)) {
+          queryParams.set("adv9", options.adv9);
+        }
+
+        if (this._isDefined(options.adv10)) {
+          queryParams.set("adv10", options.adv10);
         }
 
         if (this._isDefined(options.source_id)) {
@@ -605,6 +695,26 @@ export default class EverflowSDK {
           queryParams.set("adv5", options.adv5);
         }
 
+        if (this._isDefined(options.adv6)) {
+          queryParams.set("adv6", options.adv6);
+        }
+
+        if (this._isDefined(options.adv7)) {
+          queryParams.set("adv7", options.adv7);
+        }
+
+        if (this._isDefined(options.adv8)) {
+          queryParams.set("adv8", options.adv8);
+        }
+
+        if (this._isDefined(options.adv9)) {
+          queryParams.set("adv9", options.adv9);
+        }
+
+        if (this._isDefined(options.adv10)) {
+          queryParams.set("adv10", options.adv10);
+        }
+
         if (this._isDefined(options.sub1)) {
           queryParams.set("sub1", options.sub1);
         }
@@ -623,6 +733,26 @@ export default class EverflowSDK {
 
         if (this._isDefined(options.sub5)) {
           queryParams.set("sub5", options.sub5);
+        }
+
+        if (this._isDefined(options.sub6)) {
+          queryParams.set("sub6", options.sub6);
+        }
+
+        if (this._isDefined(options.sub7)) {
+          queryParams.set("sub7", options.sub7);
+        }
+
+        if (this._isDefined(options.sub8)) {
+          queryParams.set("sub8", options.sub8);
+        }
+
+        if (this._isDefined(options.sub9)) {
+          queryParams.set("sub9", options.sub9);
+        }
+
+        if (this._isDefined(options.sub10)) {
+          queryParams.set("sub10", options.sub10);
         }
 
         if (this._isDefined(options.order_id)) {
