@@ -516,6 +516,17 @@ export default class EverflowSDK {
           this._setDefaultFromURL(queryParams, "alt_tid");
         }
 
+        if (this._isDefined(options.utm_whop)) {
+          queryParams.set("utm_whop", options.utm_whop);
+        } else {
+          this._setDefaultFromURL(queryParams, "utm_whop");
+        }
+
+        const isUtmWhopEnabled = queryParams.get("utm_whop") === "true";
+        if (isUtmWhopEnabled) {
+          queryParams.set("full_url", window.location.href);
+        }
+        
         if (options.disable_fingerprinting === true) {
           queryParams.delete("effp");
         }
