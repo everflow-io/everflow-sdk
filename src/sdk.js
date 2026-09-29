@@ -230,6 +230,12 @@ export default class EverflowSDK {
           this._setDefaultFromURL(queryParams, "ScCid");
         }
 
+        if (this._isDefined(options.msclkid)) {
+          queryParams.set("msclkid", options.msclkid);
+        } else {
+          this._setDefaultFromURL(queryParams, "msclkid");
+        }
+
         if (this._isDefined(options.alt_tid)) {
           queryParams.set("alt_tid", options.alt_tid);
         } else {
@@ -508,6 +514,12 @@ export default class EverflowSDK {
           queryParams.set("sccid", options.sccid);
         } else {
           this._setDefaultFromURL(queryParams, "ScCid");
+        }
+
+        if (this._isDefined(options.msclkid)) {
+          queryParams.set("msclkid", options.msclkid);
+        } else {
+          this._setDefaultFromURL(queryParams, "msclkid");
         }
 
         if (this._isDefined(options.alt_tid)) {
