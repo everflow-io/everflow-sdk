@@ -526,6 +526,10 @@ export default class EverflowSDK {
         if (isUtmWhopEnabled) {
           queryParams.set("full_url", window.location.href);
         }
+
+        this._setDefaultFromURL(queryParams, "_ef_supply");
+
+        this._setDefaultFromURL(queryParams, "exc_tid");
         
         if (options.disable_fingerprinting === true) {
           queryParams.delete("effp");
